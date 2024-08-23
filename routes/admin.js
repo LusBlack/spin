@@ -9,7 +9,7 @@ const rootDir = require('../util/path');
 const products = [];
 
 router.get('/add-product', (req, res, next) => {
-    res.render('shop', { pageTitle: 'product' })
+    res.render('add-product', { pageTitle: 'product' })
 });
 
 router.post('/add-product', (req, res, next) => {
