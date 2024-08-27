@@ -11,4 +11,3 @@ router.get('/add-product', productsCont.getAddProduct)
 router.post('/add-product', productsCont.postAddProduct);
 
 exports.routes = router;
-exports.products = products;

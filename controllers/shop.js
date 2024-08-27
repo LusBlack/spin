@@ -1,7 +1,7 @@
 const adminData = require('./products');
 
-exports.shop = (res) => {
-    const products = adminData.products;
+exports.shop = (req, res, next) => {
+    const products = adminData.products
    res.render('shop',
     {prods: products,  
     pageTitle: 'Shop',

@@ -8,6 +8,6 @@ const shop = require('../controllers/shop');
 
 
 
-router.get('/', shop);
+router.get('/', shop.shop);
 
 module.exports = router;
