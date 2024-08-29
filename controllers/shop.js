@@ -1,8 +1,9 @@
-const adminData = require('./products');
+const Product = require('../models/product');
+
 
 exports.shop = (req, res, next) => {
-    const products = adminData.products
-   res.render('shop',
+    const products = Product.fetchAll();
+    res.render('shop',
     {prods: products,  
     pageTitle: 'Shop',
     path: '/',
