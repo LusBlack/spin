@@ -1,7 +1,13 @@
 const fs = require('fs');
 const path = require('path');
 
-const getProductsFromFile = () => {
+const p = path.join(
+  path.dirname(require.main.filename),  // Use require.main.filename
+  'data',
+  'products.json'
+);
+
+const getProductsFromFile = cb => {
   const p = path.join(
     path.dirname(require.main.filename),
     'data',
@@ -14,7 +20,7 @@ const getProductsFromFile = () => {
     }
 
     try {
-      console.log("File content:", fileContent.toString());  // Log the file content for debugging
+      //console.log("File content:", fileContent.toString());  // Log the file content for debugging
       const products = JSON.parse(fileContent);
       cb(products);
     } catch (parseErr) {
@@ -30,13 +36,7 @@ module.exports = class Product {
   }
 
   save() {
-    getProductsFromFile();
-    const p = path.join(
-      path.dirname(require.main.filename),  // Use require.main.filename
-      'data',
-      'products.json'
-    );
-    fs.readFile(p, (err, fileContent) => {
+    getProductsFromFile(products => {
       products.push(this);
       fs.writeFile(p, JSON.stringify(products), err => {
         if (err) {
@@ -44,6 +44,7 @@ module.exports = class Product {
         }
       });
     });
+    fs.readFile(p, (err, fileContent) => {});
   }
 
   static fetchAll(cb) {
