@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const p = path.join(
-  path.dirname(require.main.filename),  // Use require.main.filename
+  path.dirname(require.main.filename),  
   'data',
   'products.json'
 );
@@ -16,11 +16,17 @@ const getProductsFromFile = cb => {
   fs.readFile(p, (err, fileContent) => {
     if (err) {
       console.log("Error reading file in fetchAll():", err);
-      return cb([]);  // Return early if there's an error
+      return cb([]);  
     }
 
+    if (fileContent.length === 0) {
+      console.log("File is empty, returning empty array.");
+      return cb([]);
+    }
+
+
     try {
-      //console.log("File content:", fileContent.toString());  // Log the file content for debugging
+      console.log("File content:", fileContent.toString());  
       const products = JSON.parse(fileContent);
       cb(products);
     } catch (parseErr) {
@@ -31,7 +37,8 @@ const getProductsFromFile = cb => {
 }
 
 module.exports = class Product {
-  constructor(title, imageUrl, description, price) {
+  constructor(id, title, imageUrl, description, price) {
+    this.id = id;
     this.title = title;
     this.imageUrl = imageUrl;
     this.description = description;
@@ -42,7 +49,7 @@ module.exports = class Product {
     this.id = Math.random().toString();
     getProductsFromFile(products => {
       products.push(this);
-      fs.writeFile(p, JSON.stringify(products), err => {
+      fs.writeFile(p, JSON.stringify(products, null, 2), err => {
         if (err) {
           console.log("Error writing file:", err);
         }
